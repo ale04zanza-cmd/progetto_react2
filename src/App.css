@@ -1,0 +1,250 @@
+/* Reset leggero: rende prevedibili dimensioni e spaziature degli elementi. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Sfondo e tipografia comuni a tutta l'applicazione. */
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at top left, rgba(20, 184, 166, .16), transparent 38%),
+        #101820;
+    color: #f8fafc;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Rimuove i vincoli del template Vite per usare tutta la larghezza disponibile. */
+#root {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    margin: 0;
+    border: 0;
+    text-align: left;
+}
+
+/* Disposizione a due colonne dei pannelli, con larghezza massima centrata. */
+.dashboard {
+    width: min(1200px, calc(100% - 40px));
+    margin: 48px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+/* Stile condiviso dei due riquadri principali. */
+.panel,
+.viewer {
+    padding: 32px;
+    background: rgba(30, 41, 59, .92);
+    border: 1px solid rgba(148, 163, 184, .16);
+    border-radius: 24px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+}
+
+/* Gerarchia dei titoli: colore chiaro e peso marcato per risaltare sui pannelli scuri. */
+h2 {
+    margin-bottom: 22px;
+    color: #f8fafc;
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+}
+
+/* Evidenzia il titolo della sezione del consiglio corrente. */
+.viewer h2 {
+    color: #5eead4;
+}
+
+/* Form orizzontale: campo elastico e pulsante restano allineati con uno spazio costante. */
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+input {
+    /* Il campo si restringe se necessario; il tema scuro mantiene contrasto col testo. */
+    min-width: 0;
+    flex: 1;
+    padding: 13px 15px;
+    border: 1px solid #475569;
+    border-radius: 12px;
+    outline: none;
+    background: #0f172a;
+    color: #f8fafc;
+    font: inherit;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+input::placeholder {
+    /* Testo guida meno intenso del contenuto digitato. */
+    color: #94a3b8;
+}
+
+input:focus {
+    /* Bordo e alone turchese rendono evidente quando il campo è selezionato. */
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, .18);
+}
+
+/* Pulsanti: indicano l'interattività con un feedback leggero al passaggio del mouse. */
+button {
+    border: 0;
+    cursor: pointer;
+    color: white;
+    font: inherit;
+    font-weight: 700;
+    transition: transform .2s, filter .2s, box-shadow .2s;
+}
+
+button:hover {
+    /* Feedback visivo comune a tutti i pulsanti al passaggio del puntatore. */
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+}
+
+button:active {
+    /* Annulla il sollevamento mentre il pulsante viene premuto. */
+    transform: translateY(0);
+}
+
+/* Pulsante per aggiungere consigli. */
+form button {
+    padding: 12px 19px;
+    border-radius: 12px;
+    background: #0f9f82;
+    box-shadow: 0 6px 18px rgba(15, 159, 130, .2);
+}
+
+/* Singola voce dell'elenco dei consigli. */
+.advice-item {
+    margin-top: 12px;
+    padding: 14px 16px;
+    border: 1px solid rgba(148, 163, 184, .12);
+    border-radius: 12px;
+    background: #26364a;
+    color: #e2e8f0;
+    line-height: 1.5;
+    transition: border-color .2s, transform .2s;
+}
+
+/* Invito visivo al passaggio del mouse sulle voci dell'elenco. */
+.advice-item:hover {
+    transform: translateX(4px);
+    border-color: rgba(45, 212, 191, .55);
+}
+
+/* Azione principale per estrarre un consiglio. */
+.btn-main {
+    width: 100%;
+    margin: 4px 0 20px;
+    padding: 15px 20px;
+    border-radius: 14px;
+    background: linear-gradient(110deg, #0f9f82, #14b8a6);
+    box-shadow: 0 8px 24px rgba(20, 184, 166, .22);
+}
+
+/* Contatore delle visualizzazioni nel pannello del consiglio. */
+.viewer h3 {
+    /* Testo secondario: il contatore resta leggibile ma meno prominente del titolo. */
+    color: #cbd5e1;
+    font-size: .95rem;
+    font-weight: 600;
+}
+
+/* Riquadro in evidenza che contiene il consiglio estratto. */
+.advice-box {
+    /* Contrasto, spaziatura e animazione distinguono il consiglio estratto dagli altri. */
+    position: relative;
+    overflow: hidden;
+    margin: 20px 0;
+    padding: 34px 28px;
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #0f9f82, #15803d);
+    color: white;
+    font-size: 1.35rem;
+    font-weight: 650;
+    line-height: 1.55;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(15, 159, 130, .2);
+    animation: advice-arrives .35s ease-out;
+}
+
+/* Etichetta introduttiva decorativa sopra al testo del consiglio. */
+.advice-box::before {
+    /* Pseudo-elemento decorativo: aggiunge un'etichetta senza modificare il markup React. */
+    content: "IL TUO PROSSIMO PASSO";
+    display: block;
+    margin-bottom: 14px;
+    color: #d1fae5;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+}
+
+/* Azione distruttiva: colore rosso per distinguere chiaramente l'eliminazione. */
+.remove {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid rgba(254, 202, 202, .25);
+    border-radius: 12px;
+    background: #dc2626;
+    box-shadow: 0 7px 18px rgba(220, 38, 38, .2);
+}
+
+/* Rende più evidente il pulsante rosso quando il puntatore è sopra. */
+.remove:hover {
+    background: #b91c1c;
+    box-shadow: 0 9px 22px rgba(220, 38, 38, .3);
+}
+
+/* Breve entrata animata quando viene mostrato un nuovo consiglio. */
+@keyframes advice-arrives {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Su schermi medi impila i pannelli per migliorare la leggibilità. */
+@media (max-width: 760px) {
+    /* Passa a una colonna su tablet e telefoni per evitare pannelli troppo stretti. */
+    .dashboard {
+        width: min(560px, calc(100% - 28px));
+        margin: 24px auto;
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .panel,
+    .viewer {
+        padding: 24px;
+        border-radius: 20px;
+    }
+}
+
+/* Su telefoni stretti dispone il form in verticale e riduce gli spazi interni. */
+@media (max-width: 420px) {
+    /* Ulteriore adattamento per telefoni piccoli: form verticale e card più compatta. */
+    form {
+        flex-direction: column;
+    }
+
+    form button {
+        padding: 13px;
+    }
+
+    .advice-box {
+        padding: 28px 20px;
+        font-size: 1.15rem;
+    }
+}
